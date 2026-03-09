@@ -15,6 +15,7 @@ interface GeneratorSectionProps {
 export function GeneratorSection({ t, initialRepoUrl = '', initialToken = '', initialName = '', initialEmail = '' }: GeneratorSectionProps) {
     const [repoUrl, setRepoUrl] = useState(initialRepoUrl);
     const [token, setToken] = useState(initialToken);
+    const [remoteType, setRemoteType] = useState<'add' | 'set-url'>('add');
     const [copied, setCopied] = useState<'remote' | 'config' | 'push' | 'push1' | 'push2' | 'push3' | 'push4' | null>(null);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export function GeneratorSection({ t, initialRepoUrl = '', initialToken = '', in
             const url = new URL(repoUrl);
             if (url.hostname !== 'github.com') return t.githubOnly;
             const cleanPath = url.pathname.startsWith('/') ? url.pathname.slice(1) : url.pathname;
-            return `git remote add origin https://${token ? token + '@' : ''}github.com/${cleanPath}`;
+            return `git remote ${remoteType} origin https://${token ? token + '@' : ''}github.com/${cleanPath}`;
         } catch (e) {
             return t.invalidUrl;
         }
@@ -85,7 +86,7 @@ export function GeneratorSection({ t, initialRepoUrl = '', initialToken = '', in
 
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 group">
-                        <div className="flex justify-between items-center px-1">
+                        <div className="flex justify-between items-center px-1 mb-1">
                             <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">{t.remoteLabel}</label>
                             <button
                                 onClick={() => handleCopy('remote', getRemoteCommand())}
@@ -102,6 +103,26 @@ export function GeneratorSection({ t, initialRepoUrl = '', initialToken = '', in
                                         </motion.span>
                                     )}
                                 </AnimatePresence>
+                            </button>
+                        </div>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setRemoteType('add')}
+                                className={`flex-1 py-2 px-3 rounded-xl text-[11px] font-medium transition-all ${remoteType === 'add'
+                                        ? 'bg-brand-primary/20 text-brand-primary border border-brand-primary/30'
+                                        : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
+                                    }`}
+                            >
+                                {t.remoteTypeAdd}
+                            </button>
+                            <button
+                                onClick={() => setRemoteType('set-url')}
+                                className={`flex-1 py-2 px-3 rounded-xl text-[11px] font-medium transition-all ${remoteType === 'set-url'
+                                        ? 'bg-brand-primary/20 text-brand-primary border border-brand-primary/30'
+                                        : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
+                                    }`}
+                            >
+                                {t.remoteTypeSetUrl}
                             </button>
                         </div>
                         <div className="bg-[#05080f] border border-white/5 rounded-2xl p-4 font-mono text-sm text-brand-primary/90 break-all relative">

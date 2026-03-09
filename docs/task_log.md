@@ -45,6 +45,10 @@
 ### ✨ Phase 7: 브랜딩 적용 (Branding)
 - **파비콘(Favicon) 변경**: 기본 제공되는 Vite 로고 파일(`vite.svg`) 대신 아크랩스 브랜드 로고(`aklabs-log.svg`)로 교체 적용.
 
+### 🔄 Phase 8: 원격 저장소 설정 유연성 확대 (Remote URL Config)
+- **URL 추가 방식 선택 기능**: 사용자가 상황에 맞춰 `git remote add` (새로운 주소 추가)와 `git remote set-url` (기존 주소 변경) 중 적절한 명령어를 선택하여 생성할 수 있도록 UI 토글 버튼 추가.
+- **다국어 반영 완료**: 한국어 및 영어 모드 모두에서 해당 버튼 텍스트가 자연스럽게 번역되도록 `translations.ts` 업데이트 구현.
+
 ---
 
 ## 3. 최종 결과물 주요 특징
